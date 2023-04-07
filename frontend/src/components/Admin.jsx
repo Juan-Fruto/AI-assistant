@@ -56,7 +56,7 @@ function Admin() {
   }, []);
 
   return (
-    <div style={{flexBasis: "100%"}} className="App">
+    <div className="ad-container">
       <h1>Rules</h1>
       <ul>
         {rules.map((rule, index) => (

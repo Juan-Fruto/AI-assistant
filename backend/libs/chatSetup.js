@@ -2,8 +2,7 @@ import Chats from '../models/chats.js';
 import Rules from '../models/rules.js';
 import Facts from '../models/facts.js';
 
-const chatSetup = async (chatId) => {
-
+export const getSysContent = async () => {
     const rules = await Rules.find({}, "content");
     const facts = await Facts.find({}, "content");
     
@@ -13,13 +12,18 @@ const chatSetup = async (chatId) => {
     system = system + " and the next rules: ";
     rules.map((r) => system = system + r.content + ". ");
 
+    return system;
+} 
+
+const chatSetup = async (chatId) => {
+    const system = await getSysContent();
 
     const rulesSys = new Chats({
         chatID: chatId,
         messages: [
             {
-                role: system,
-                content: "You are an assist"
+                role: "system",
+                content: system
             },
             {
                 role: "user",
@@ -28,7 +32,7 @@ const chatSetup = async (chatId) => {
         ]
     });
 
-    rulesSys.save().then(() => (0));
+    await rulesSys.save();
 }
 
 export default chatSetup

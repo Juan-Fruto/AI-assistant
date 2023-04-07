@@ -3,7 +3,7 @@ import {openai} from '../app.js';
 import Chats from '../models/chats.js';
 import Rules from '../models/rules.js';
 import Facts from '../models/facts.js';
-import chatSetup from '../libs/chatSetup.js'
+import chatSetup, {getSysContent} from '../libs/chatSetup.js'
 
 export const sendPrompt = async (req, res) => {
     try {
@@ -14,34 +14,22 @@ export const sendPrompt = async (req, res) => {
         console.log(typeof chatId)
         
         const chatsLength = await Chats.countDocuments({chatID: chatId});
-        console.log('longitud', chatsLength)
+        console.log('longitud', chatsLength);
+
         if(chatsLength == 0){
-                    
-            const rules = await Rules.find({}, "content");
-            const facts = await Facts.find({}, "content");
-            
-            var system = "You are an assist who follows the next facts: ";
-            facts.map((f) => system = system + f.content + ". ");
+            await chatSetup(chatId);    
+        } else {
+            const newContent = await getSysContent();
 
-            system = system + " and the next rules: ";
-            rules.map((r) => system = system + r.content + ". ");
-
-
-            const rulesSys = new Chats({
-                chatID: chatId,
-                messages: [
-                    {
-                        role: "system",
-                        content: system
-                    },
-                    {
-                        role: "user",
-                        content: "by default reply in español"
-                    }
-                ]
-            });
-
-            await rulesSys.save();
+            await Chats.findOneAndUpdate(
+                {
+                    chatID: chatId,
+                    "messages.role": "system"
+                },
+                {
+                    $set: { "messages.$.content": newContent }
+                }
+            )
         }
         
         const messagesDB = await Chats.findOne({chatID: chatId}, 'chatID messages').lean();
