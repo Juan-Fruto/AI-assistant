@@ -5,6 +5,8 @@ import dontenv from 'dotenv';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { Configuration, OpenAIApi } from 'openai';
+import authRoutes from './routes/auth.routes.js';
+import usersRoutes from './routes/users.routes.js';
 import openaiRoutes from './routes/openai.routes.js';
 import knowledgeRoutes from './routes/knowledge.routes.js';
 
@@ -34,6 +36,8 @@ app.use(cors());
 
 // routes
 
+app.use("/auth", authRoutes);
+app.use("/users", usersRoutes);
 app.use("/knowledge", knowledgeRoutes);
 app.use("/openai", openaiRoutes);
 app.use(function(req, res) {
