@@ -27,3 +27,22 @@ export const loginHandler = async (req, res) => {
       res.status(500).json({"error": error});
   }
 }
+
+export const signup = (req, res) => {
+  try {
+    const {
+      brandName,
+      legalName,
+      logo,
+      username,
+      name,
+      email,
+      password
+    } = req.body;
+
+    res.status(200).json({});
+  } catch (error) {
+    console.error('error', error);
+    res.status(500).json({"error": error});
+  }
+}

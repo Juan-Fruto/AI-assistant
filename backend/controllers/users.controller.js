@@ -18,7 +18,3 @@ export const userCounter = async (req, res) => {
         res.status(500).json({"error": error});
     }
 }
-
-// export const getStarted = async (req, res) => {
-//     pass
-// }
