@@ -1,19 +1,20 @@
 import Router from 'express';
+import authToken from '../middlewares/authToken.js';
 import {
     getRules,
     addRule,
     getFacts,
-    adFact
+    addFact
 } from '../controllers/knowledge.controller.js';
 
 const router = new Router();
 
-router.get("/rules", getRules);
+router.get("/rules", authToken, getRules);
 
-router.post("/rules", addRule);
+router.post("/rules", authToken, addRule);
 
-router.get("/facts", getFacts);
+router.get("/facts", authToken, authToken,getFacts);
 
-router.post("/facts", adFact);
+router.post("/facts", authToken, addFact);
 
 export default router;

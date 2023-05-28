@@ -15,7 +15,7 @@ const userSchema = new Schema(
             unique: false,
             trim: false
         },
-        emali: {
+        email: {
             type: String,
             required: true,
             unique: true,
@@ -41,8 +41,9 @@ userSchema.methods.encryptPassword = async (password) => {
     return hash;
 }
 
-userSchema.methods.matchPassword = async (password) => {
-    return await bcrypt.matchPassword(password, this.password);
+// arrow functions doesn't work with reference 'this'
+userSchema.methods.matchPassword = async function (password) {
+    return await bcrypt.compare(password, this.password);
 }
 
 export default model('Users', userSchema);

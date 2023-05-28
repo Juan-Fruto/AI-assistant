@@ -1,9 +1,8 @@
 import axios from 'axios';
 import {openai} from '../app.js';
 import Chats from '../models/chats.js';
-import Rules from '../models/rules.js';
-import Facts from '../models/facts.js';
-import chatSetup, {getSysContent} from '../libs/chatSetup.js'
+import chatSetup, {getSysContent} from '../libs/chatSetup.js';
+import { httpError } from '../helpers/handleError.js';
 
 export const sendPrompt = async (req, res) => {
     try {
@@ -16,9 +15,12 @@ export const sendPrompt = async (req, res) => {
         const chatsLength = await Chats.countDocuments({chatID: chatId});
         console.log('longitud', chatsLength);
 
+        // config the chat if the chat is empty
         if(chatsLength == 0){
             await chatSetup(chatId);    
         } else {
+
+            //
             const newContent = await getSysContent();
 
             await Chats.findOneAndUpdate(
@@ -51,7 +53,7 @@ export const sendPrompt = async (req, res) => {
         const aiRes = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: messages,
-            temperature: 0.5
+            temperature: 0.3
         });
 
         // sending the openai response to chat engine
@@ -84,7 +86,6 @@ export const sendPrompt = async (req, res) => {
 
         res.status(200).json({text: text + "😊"});
     } catch (error) {
-        console.error('error', error);
-        res.status(500).json({error: error.message});
+        httpError(res, error);
     }
 }

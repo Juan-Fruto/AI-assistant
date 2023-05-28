@@ -15,10 +15,24 @@ const companySchema = new Schema(
             trim: false
         },
         logo: {
-            type: String,
-            required: true,
-            unique: true,
-            trim: true
+            public_id: {
+                type: String,
+                required: true,
+                unique: true,
+                trim: true
+            },
+            secure_url: {
+                type: String,
+                required: true,
+                unique: true,
+                trim: true
+            },
+            devices_state: {
+                type: String,
+                required: true,
+                unique: false,
+                trim: false
+            },
         }
     },
     {
@@ -28,6 +42,5 @@ const companySchema = new Schema(
 );
 
 // limit of documents in the collection
-companySchema.plugin(require('mongoose-max-documents-plugin'), { max: 1 });
 
 export default model('Company', companySchema);

@@ -8,7 +8,7 @@ export const api = createApi({
     endpoints: (build) => ({
         postAiText: build.mutation({
             query: (payload) => ({
-                url: "/openai/text",
+                url: "/api/openai/text",
                 method: "POST",
                 body: payload
             })

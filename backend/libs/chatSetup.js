@@ -2,6 +2,7 @@ import Chats from '../models/chats.js';
 import Rules from '../models/rules.js';
 import Facts from '../models/facts.js';
 
+// setting the rules and facts to the content of the user system
 export const getSysContent = async () => {
     const rules = await Rules.find({}, "content");
     const facts = await Facts.find({}, "content");
@@ -15,6 +16,8 @@ export const getSysContent = async () => {
     return system;
 } 
 
+
+// creating a new chat in the DB and setting the rules and facts by the admin
 const chatSetup = async (chatId) => {
     const system = await getSysContent();
 
