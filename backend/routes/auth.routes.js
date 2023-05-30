@@ -1,5 +1,6 @@
 import Router from 'express';
 import { loginHandler, signupHandler } from '../controllers/auth.controller.js';
+import initToken from '../middlewares/initToken.js';
 import loginValidators from '../validators/login.js';
 import singupValidators from '../validators/singup.js';
 import api from 'api';

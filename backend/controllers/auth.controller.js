@@ -6,6 +6,7 @@ import { uploadImage } from '../services/cloudinary.js';
 import { response } from 'express';
 import fsAsync from 'fs-extra';
 import { startSession } from 'mongoose';
+import { generateUniqueKey } from '../libs/bcrypt.js' 
 
 export const loginHandler = async (req, res) => {
   try {
@@ -60,6 +61,8 @@ export const signupHandler = async (req, res) => {
 
     const path = req.files.logo.tempFilePath;
     const {public_id, secure_url} = await uploadImage(path);
+
+    const tokenKey = generateUniqueKey();
     
     // creating the company
     const newCompany = new Company({
@@ -68,9 +71,11 @@ export const signupHandler = async (req, res) => {
       logo: {
         public_id,
         secure_url
-      }
+      },
+      devices_state: "new",
+      token_key: tokenKey
     });
-    
+
     // creating the user and encrypting the password
     const newUser = new Users({username, name, email, password});
     newUser.password = await newUser.encryptPassword(password);
@@ -93,6 +98,7 @@ export const signupHandler = async (req, res) => {
         await session.abortTransaction();
       }
       console.error(error);
+      return httpError(res, error);
     } finally {
       if (session) {
         session.endSession();
@@ -100,7 +106,7 @@ export const signupHandler = async (req, res) => {
     }
     
     // creating the token
-    const token = jwt.sign({id: newUser.id}, process.env.JWT_SECRET, {expiresIn: 60*60*1});
+    const token = jwt.sign({key: tokenKey}, process.env.JWT_SECRET);
 
     // sending the token
     res.status(200).json({token});

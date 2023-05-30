@@ -26,14 +26,20 @@ const companySchema = new Schema(
                 required: true,
                 unique: true,
                 trim: true
-            },
-            devices_state: {
-                type: String,
-                required: true,
-                unique: false,
-                trim: false
-            },
-        }
+            }
+        },
+        devices_state: {
+            type: String,
+            required: true,
+            unique: false,
+            trim: false
+        },
+        token_key: {
+            type: String,
+            required: true,
+            unique: false,
+            trim: false
+        },
     },
     {
         timestamps: true,
