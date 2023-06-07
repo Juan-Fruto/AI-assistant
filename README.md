@@ -6,8 +6,7 @@ Technology Summary:
  * Frontend: TS and React (both domains)
  * Backend: JS and Express
  * DB: MongoDB
- * Cloud Services:
-  * <ul><li>OpenAI</li><li>Cloudninary</li><li>ChatEngine</li></ul>
+ * Cloud Services:<ul><li>OpenAI</li><li>Cloudninary</li><li>ChatEngine</li></ul>
 
 To run this project you need to have installed:
   * Node JS v18.12.1
