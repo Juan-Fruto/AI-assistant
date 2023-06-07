@@ -7,9 +7,9 @@ Technology Summary:
  * Backend: JS and Express
  * DB: MongoDB
  * Cloud Services:
-  * OpenAI
-  * Cloudninary
-  * ChatEngine
+  - OpenAI
+  - Cloudninary
+  - ChatEngine
 
 To run this project you need to have installed:
   * Node JS v18.12.1
