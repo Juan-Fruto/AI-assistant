@@ -6,7 +6,7 @@ Technology Summary:
  * Frontend: TS and React (both domains)
  * Backend: JS and Express
  * DB: MongoDB
- *Cloud Services:
+ * Cloud Services:
   <ul><li>OpenAI</li>
   <li>Cloudninary</li>
   <li>ChatEngine</li></ul>
