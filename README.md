@@ -1,5 +1,16 @@
 # Smartphone sales platform with an AI assistant for users
 
+This project has two domains, one for the chatbot and another for the administrator
+
+Technology Summary:
+ * Frontend: TS and React (both domains)
+ * Backend: JS and Express
+ * DB: MongoDB
+ * Cloud Services:
+  * OpenAI
+  * Cloudninary
+  * ChatEngine
+
 To run this project you need to have installed:
   * Node JS v18.12.1
   * MongoDB v6.0.2 (if the DB will be local)
