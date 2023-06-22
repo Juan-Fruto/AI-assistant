@@ -18,14 +18,14 @@ export const loginHandler = async (req, res) => {
     
     // checking if the user exists
     if(!user){
-      res.status(403).json({message: "the user does not exist"})
+      return res.status(403).json({message: "the user does not exist"})
     }
     
     // checking if the password is correct
     const matchPassword = await user.matchPassword(password);
 
     if(!matchPassword){
-      res.status(403).json({message: "incorrect password"});
+      return res.status(403).json({message: "incorrect password"});
     }
 
     // creating the token
@@ -44,11 +44,14 @@ export const signupHandler = async (req, res) => {
     const {
       brandName,
       legalName,
+      devicesState,
       username,
       name,
       email,
       password
     } = req.body;
+
+    console.log(req.body);
 
     // validating if the logo has been provided
     if(!req.files?.logo){
@@ -72,12 +75,17 @@ export const signupHandler = async (req, res) => {
         public_id,
         secure_url
       },
-      devices_state: "new",
+      devices_state: devicesState,
       token_key: tokenKey
     });
 
     // creating the user and encrypting the password
-    const newUser = new Users({username, name, email, password});
+    const newUser = new Users({
+      username,
+      name,
+      email,
+      password
+    });
     newUser.password = await newUser.encryptPassword(password);
 
     // deteling the temp file from the server

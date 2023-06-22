@@ -11,9 +11,9 @@ router.post('/login', loginValidators, loginHandler);
 
 router.post('/createUser', singupValidators, signupHandler);
 
-const techspecs_key = process.env.TECH_SPECS_API_KEY;
+const techspecs_key = process.env.TECH_SPECS_API_KEY; 
 
-router.get('/devices', async (req, res) => {
+router.get('/devices/api', async (req, res) => {
 
   try {
     const sdk = api('@techspecs/v4.0#c00z1gqlhvno03e');

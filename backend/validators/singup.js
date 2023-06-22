@@ -11,6 +11,10 @@ const validations = [
         .isLength({min: 5, max: 50}).withMessage("The length has to be at least 5 and at most 50")
         .isAscii().withMessage("The special characters are not allowed"),
 
+    check('devicesState')
+        .exists().withMessage("The devices state has not been provided")
+        .isLength({min: 1}).withMessage("The value of the device has not been provided"),
+
     check('username')
         .exists().withMessage("The username has not been provided")
         .isLength({min: 5, max: 15}).withMessage("The length has to be at least 5 and at most 15")

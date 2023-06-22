@@ -1,22 +1,35 @@
 import { httpError } from '../helpers/handleError.js';
 import jwt from 'jsonwebtoken';
+import { areUsers } from '../helpers/userCounter.js';
 
 const initToken = (req, res, next) => {
   try {
     
-    const initTokenHeader = req.headers.authorization;
+    const initTokenHeader = req.headers['x-init-token'];
+    let errors = 0;
 
     // verifyng if the auth header exists
-    if(!initTokenHeader) res.status(401).json({message: "Unauthorized"});
+    if(!initTokenHeader) errors++;
 
     const token = initTokenHeader.split(' ')[1];
 
     // verifyng if the token exists
-    if(!token) res.status(401).json({message: "Unauthorized"});
+    if(!token) errors++;
 
     // verifyng if the token is valid
-    jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
-      if(err) res.status(401).json({message: 'uninitialized'});
+    jwt.verify(token, process.env.JWT_SECRET, async (err, payload) => {
+      
+      if(err) errors++;
+
+      if(errors > 0){
+        const usersExist  = await areUsers();
+
+        console.log(errors);
+
+        if(usersExist) return res.status(401).json({message: 'uninitialized'});
+
+        return res.status(307).json({message: 'There are no users'});
+      }
 
       req.body.initToken = payload.key;
       next();

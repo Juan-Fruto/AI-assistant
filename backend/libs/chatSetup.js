@@ -1,17 +1,17 @@
 import Chats from '../models/chats.js';
 import Rules from '../models/rules.js';
-import Facts from '../models/facts.js';
+import Devices from '../models/devices.js';
 
 // setting the rules and facts to the content of the user system
 export const getSysContent = async () => {
     const rules = await Rules.find({}, "content");
-    const facts = await Facts.find({}, "content");
-    
-    var system = "You are an assist who follows the next facts: ";
-    facts.map((f) => system = system + f.content + ". ");
+    const devices = await Devices.find({}, "model price");
 
-    system = system + " and the next rules: ";
+    var system = "You are an assist who sells smartphones follows the next rules: '";
     rules.map((r) => system = system + r.content + ". ");
+    
+    system = system + "' And knows the next smartphones with its prices: '";
+    devices.map((d) => system = system + d.model + " $" + (d.price / 100) + ". ");
 
     return system;
 } 
